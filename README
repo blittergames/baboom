@@ -1,0 +1,17 @@
+= Baboom!
+
+* http://github.com/blittergames/baboom/tree/master
+
+== DESCRIPTION:
+  
+  A game where you catch the falling bombs.
+
+== REQUIREMENTS:
+
+  *  PyGame
+
+== LICENSE:
+
+(GPL)
+
+Copyright (c) 2009 Haroon Khalid
