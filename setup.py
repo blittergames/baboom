@@ -8,6 +8,40 @@ import random
 import os
 from sys import exit
 
+class Bomber:
+    def __init__(self, screen_name):
+        self.screen = screen_name
+        self.image = pygame.image.load(os.path.join('graphics', 'bomber.png'))
+        self.image.set_colorkey((0,0,0))
+        self.rect = self.image.get_rect()
+        self.rect.x = 220
+        self.rect.y = 30
+        self.ticks = 0
+        self.move = 0
+        
+    def set_move(self):
+        self.current_ticks = pygame.time.get_ticks()
+        if (self.current_ticks > (self.ticks + 500)):
+            self.move = random.randint(0,1)
+            self.ticks = pygame.time.get_ticks()
+            
+        if self.move == 0:
+            self.rect.x += 2
+            #self.ticks = pygame.time.get_ticks()
+        else:
+            self.rect.x -= 2
+            #self.ticks = pygame.time.get_ticks()
+        print "/////////////////////////////////"    
+        print "self.move: " + str(self.move)
+        print "self.ticks: " + str(self.ticks)
+        print "self.current_ticks: " + str(self.current_ticks)
+        print "/////////////////////////////////"    
+        
+    def update(self):
+        self.set_move()
+        self.screen.blit(self.image, (self.rect.x,self.rect.y))
+    
+
 class Bomb:
     def __init__(self, screen_name):
         self.screen = screen_name
@@ -66,6 +100,7 @@ class Level_1:
         self.background = pygame.image.load(os.path.join('graphics', 'background.png'))
         self.loop = 1
         self.p1 = Player(self.screen)
+        self.b1 = Bomber(self.screen)
         self.bombs = []
         self.ticks = 0
         self.bombs_dropped = 0
@@ -105,7 +140,7 @@ class Level_1:
             self.bombs_dropped += 1
             print str(self.bombs_dropped)
         
-        if (current_ticks > (self.ticks + 100) and (self.bombs_dropped > 10)):
+        if (current_ticks > (self.ticks + 500) and (self.bombs_dropped > 10)):
                 self.create_bomb()
                 self.bombs_dropped += 1
                 print str(self.bombs_dropped)
@@ -137,6 +172,7 @@ class Level_1:
             self.p1.run()
             self.spawn_bombs()
             self.update_bombs()
+            self.b1.update()
             pygame.display.update()
             pygame.time.delay(25)
 
