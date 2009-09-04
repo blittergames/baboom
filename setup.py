@@ -22,6 +22,7 @@ class Bomber:
     def set_move(self):
         self.current_ticks = pygame.time.get_ticks()
         if (self.current_ticks > (self.ticks + 500)):
+            random.seed()
             self.move = random.randint(0,1)
             self.ticks = pygame.time.get_ticks()
             
@@ -37,8 +38,15 @@ class Bomber:
         print "self.current_ticks: " + str(self.current_ticks)
         print "/////////////////////////////////"    
         
+    def boundry(self):
+        if self.rect.x > 422:
+            self.rect.x = 422
+        if self.rect.x < 20:
+            self.rect.x = 20
+        
     def update(self):
         self.set_move()
+        self.boundry()
         self.screen.blit(self.image, (self.rect.x,self.rect.y))
     
 
@@ -170,7 +178,7 @@ class Level_1:
             self.screen.blit(self.background, (0,0))
             self.check_hit()
             self.p1.run()
-            self.spawn_bombs()
+            #self.spawn_bombs()
             self.update_bombs()
             self.b1.update()
             pygame.display.update()
