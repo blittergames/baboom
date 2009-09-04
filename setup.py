@@ -12,19 +12,22 @@ class Bomber:
     def __init__(self, screen_name):
         self.screen = screen_name
         self.image = pygame.image.load(os.path.join('graphics', 'bomber.png'))
-        self.image.set_colorkey((0,0,0))
+        self.image.set_colorkey((46,167,0))
         self.rect = self.image.get_rect()
-        self.rect.x = 220
+        self.rect.x = 160
         self.rect.y = 30
         self.ticks = 0
+        self.b_ticks = 0
         self.move = 0
-        self.bombs = 0
+        self.bombs = []
+        self.dropped = 0
         
     def create_bomb(self):
-        self.ticks = pygame.time.get_ticks()
+        self.dropped += 1
+        self.b_ticks = pygame.time.get_ticks()
         self.b = Bomb(self.screen)
-        self.b.rect.x = 80
-        self.b.rect.y = 80    
+        self.b.rect.x = self.rect.x + 17
+        self.b.rect.y = self.rect.y + 40
         self.bombs.append(self.b)
         #self.b.sizzle.play()
  
@@ -34,15 +37,6 @@ class Bomber:
                 #self.b.explode.play()
                 self.bombs.remove(b)
             b.update()
-    
-    def spawn_bombs(self):
-        #print "current_tick: " + str(current_ticks)
-        #print "self.ticks: " + str(self.ticks + 1000)  
-        current_ticks = pygame.time.get_ticks()
-        if (current_ticks > (self.ticks + 1000)):
-            self.create_bomb()
-            self.bombs_dropped += 1
-            #print str(self.bombs_dropped)
         
     def set_move(self):
         self.current_ticks = pygame.time.get_ticks()
@@ -50,6 +44,7 @@ class Bomber:
             random.seed()
             self.move = random.randint(0,1)
             self.ticks = pygame.time.get_ticks()
+            self.create_bomb()
             
         if self.move == 0:
             self.rect.x += 2
@@ -70,9 +65,11 @@ class Bomber:
             self.rect.x = 20
         
     def update(self):
+        #self.spawn_bombs()
         self.set_move()
         self.boundry()
         self.screen.blit(self.image, (self.rect.x,self.rect.y))
+        self.update_bombs()
     
 
 class Bomb:
