@@ -18,6 +18,31 @@ class Bomber:
         self.rect.y = 30
         self.ticks = 0
         self.move = 0
+        self.bombs = 0
+        
+    def create_bomb(self):
+        self.ticks = pygame.time.get_ticks()
+        self.b = Bomb(self.screen)
+        self.b.rect.x = 80
+        self.b.rect.y = 80    
+        self.bombs.append(self.b)
+        #self.b.sizzle.play()
+ 
+    def update_bombs(self):
+        for b in self.bombs:
+            if b.rect.y > 320:
+                #self.b.explode.play()
+                self.bombs.remove(b)
+            b.update()
+    
+    def spawn_bombs(self):
+        #print "current_tick: " + str(current_ticks)
+        #print "self.ticks: " + str(self.ticks + 1000)  
+        current_ticks = pygame.time.get_ticks()
+        if (current_ticks > (self.ticks + 1000)):
+            self.create_bomb()
+            self.bombs_dropped += 1
+            #print str(self.bombs_dropped)
         
     def set_move(self):
         self.current_ticks = pygame.time.get_ticks()
@@ -184,7 +209,6 @@ class Level_1:
             pygame.display.update()
             pygame.time.delay(25)
 
-
 class Intro:
     def __init__(self, screen_name):
         self.screen = screen_name
@@ -204,7 +228,6 @@ class Intro:
                     self.loop = 0
                     self.lev_1.run()
                     break
-
 
     def run(self):
         while self.loop == 1:
