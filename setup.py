@@ -69,17 +69,19 @@ class Bomber:
                 
     def set_move(self):
         if self.dropped <= 10:
-            self.move_bomber(800,3,5,210,250)
+            self.move_bomber(500,3,5,210,250)
         elif self.dropped > 10 and self.dropped <= 20:
-            self.move_bomber(600,4,10,100,350)
+            self.move_bomber(400,4,7,10,430)
         elif self.dropped > 20 and self.dropped <= 30:
-            self.move_bomber(500,5,15,50, 400)
-        elif self.dropped > 30 and self.dropped < 40:
-            self.move_bomber(300,6,20,10,460)
-        elif self.dropped > 40 and self.dropped < 50:
-            self.move_bomber(200,7,25,10,460) 
-        elif self.dropped > 50 and self.dropped < 60:
-            self.move_bomber(100,8,30,10,460)  
+            self.move_bomber(350,4,10,10,430)
+        elif self.dropped > 30 and self.dropped <= 60:
+            self.move_bomber(300,5,13,10,430)
+        elif self.dropped > 60 and self.dropped <= 100:
+            self.move_bomber(250,5,15,10,430) 
+        elif self.dropped > 100 and self.dropped < 150:
+            self.move_bomber(100,6,18,10,430)
+            
+        print str(self.dropped)
             
     def drop_bomb(self):
         self.drop_current_ticks = pygame.time.get_ticks()
